@@ -14,12 +14,13 @@ import re
 
 hexchat.prnt(f"Spotify for Hexchat (v{__module_version__})")
 
-cmd_play =      'dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Play'
-cmd_pause =     'dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Pause'
-cmd_playpause = 'dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause'
-cmd_previous =  'dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous'
-cmd_next =      'dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next'
-cmd_current =   "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' string:'Metadata'"
+cmd_base      = 'dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2'
+cmd_play      = f'{cmd_base} org.mpris.MediaPlayer2.Player.Play'
+cmd_pause     = f'{cmd_base} org.mpris.MediaPlayer2.Player.Pause'
+cmd_playpause = f'{cmd_base} org.mpris.MediaPlayer2.Player.PlayPause'
+cmd_previous  = f'{cmd_base} org.mpris.MediaPlayer2.Player.Previous'
+cmd_next      = f'{cmd_base} org.mpris.MediaPlayer2.Player.Next'
+cmd_current   = f"{cmd_base} org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' string:'Metadata'"
 
 def get_current_track_and_name():
     metadata = subprocess.check_output(shlex.split(cmd_current), stderr=subprocess.STDOUT).decode()
