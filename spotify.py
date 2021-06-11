@@ -37,7 +37,11 @@ def get_current_track_and_name():
     return '%s (%s) URL: [ %s ]' % (name, formated, url)
 
 def current_music():
-    hexchat.prnt(' ** SPOTIFY: %s' % get_current_track_and_name())
+    try:
+        cmusic = get_current_track_and_name()
+        hexchat.prnt(' ** SPOTIFY: %s' % cmusic)
+    except Exception as inst:
+        hexchat.prnt(' ** SPOTIFY not running')
 
 def spotify(word, word_eol, userdata):
     subcommand = None
@@ -58,7 +62,11 @@ def spotify(word, word_eol, userdata):
 
     if subcommand is not None:
         if subcommand is cmd_current:
-            hexchat.command('me listening: %s' % get_current_track_and_name())
+            try:
+                cmusic = get_current_track_and_name()
+                hexchat.command('me listening: %s' % cmusic)
+            except Exception as inst:
+                hexchat.prnt(' ** SPOTIFY not running')
         else:
             subprocess.check_output(shlex.split(subcommand))
             if subcommand is cmd_previous or subcommand is cmd_next:
